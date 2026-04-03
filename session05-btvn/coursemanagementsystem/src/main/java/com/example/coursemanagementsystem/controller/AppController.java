@@ -1,15 +1,14 @@
 package com.example.coursemanagementsystem.controller;
 
-import com.example.coursemanagementsystem.dto.ApiResponse;
-import com.example.coursemanagementsystem.dto.CourseCreateRequest;
-import com.example.coursemanagementsystem.dto.CourseUpdateRequest;
-import com.example.coursemanagementsystem.dto.InstructorCreateRequest;
+import com.example.coursemanagementsystem.dto.*;
 import com.example.coursemanagementsystem.models.Student;
 import com.example.coursemanagementsystem.repository.StudentRepository;
 import com.example.coursemanagementsystem.service.CourseService;
 import com.example.coursemanagementsystem.service.InstructorService;
 import com.example.coursemanagementsystem.service.StudentEnrollmentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,6 +22,23 @@ public class AppController {
     @Autowired private StudentEnrollmentService enrollmentService;
     @Autowired private StudentRepository studentRepository; // Giả định dùng Repo nhanh cho Student
 
+
+    @GetMapping
+    public ResponseEntity<ApiResponse<PageResponse<CourseResponse>>> getAllCourses(
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "id") String sortBy,
+            @RequestParam(defaultValue = "DESC") Sort.Direction direction) {
+
+        PageResponse<CourseResponse> pagedData = courseService.getPagedCourses(page, size, sortBy, direction);
+
+        ApiResponse<PageResponse<CourseResponse>> response = ApiResponse.<PageResponse<CourseResponse>>builder()
+                .message("Get paged courses successfully")
+                .data(pagedData)
+                .build();
+
+        return ResponseEntity.ok(response);
+    }
     // POST /instructors
     @PostMapping("/instructors")
     public ResponseEntity<ApiResponse<Void>> createInstructor(@RequestBody InstructorCreateRequest req) {
