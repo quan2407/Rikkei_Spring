@@ -1,0 +1,5 @@
+Tình huống,Mã lỗi phù hợp,Giải thích dựa trên kiến thức REST API
+TH1: Bỏ trống tên bệnh nhân,400 Bad Request,"Đây là lỗi do phía Client gửi dữ liệu không đúng cấu trúc/yêu cầu của Server (Validation Error). Vì tên là bắt buộc nhưng lại để trống, Server không thể xử lý yêu cầu này."
+TH2: ID 999 không tồn tại,404 Not Found,Mã này dùng khi Server đã tiếp nhận yêu cầu nhưng không tìm thấy tài nguyên (Resource) được chỉ định. ID 999 không có trong DB đồng nghĩa với việc tài nguyên đó không tồn tại.
+TH3: Database MySQL bị sập,500 Internal Server Error,"Đây là lỗi phát sinh từ phía Server. Client gửi yêu cầu hoàn toàn đúng, nhưng do sự cố kỹ thuật bên trong hệ thống (sập DB, lỗi code...), Server không thể hoàn thành tác vụ."
+TH4: Tuổi bệnh nhân bằng -5,400 Bad Request,"Tương tự TH1, đây là lỗi Logic/Validation. Dù định dạng dữ liệu có thể đúng (là số), nhưng giá trị không hợp lệ về mặt nghiệp vụ (Business Logic). Client cần sửa lại dữ liệu trước khi gửi lại."
